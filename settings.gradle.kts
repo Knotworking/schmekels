@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google {
             content {
@@ -24,3 +25,10 @@ dependencyResolutionManagement {
 
 rootProject.name = "Schmekels"
 include(":app")
+include(":core:domain")
+include(":core:data")
+include(":core:presentation")
+include(":core:design-system")
+include(":feature:converter:domain")
+include(":feature:converter:data")
+include(":feature:converter:presentation")
