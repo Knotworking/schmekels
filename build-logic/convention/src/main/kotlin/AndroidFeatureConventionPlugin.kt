@@ -6,9 +6,9 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
-                apply("android-library")
-                apply("compose")
-                apply("koin")
+                apply("schmekels.android.library")
+                apply("schmekels.compose")
+                apply("schmekels.koin")
             }
             dependencies {
                 add("implementation", libs.findLibrary("kotlinx-coroutines-android").get())

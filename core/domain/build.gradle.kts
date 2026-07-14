@@ -1,3 +1,3 @@
 plugins {
-    id("domain-module")
+    id("schmekels.domain.module")
 }

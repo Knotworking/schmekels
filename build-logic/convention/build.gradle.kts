@@ -11,39 +11,39 @@ dependencies {
 gradlePlugin {
     plugins {
         register("androidApplication") {
-            id = "android-application"
+            id = "schmekels.android.application"
             implementationClass = "AndroidApplicationConventionPlugin"
         }
         register("androidLibrary") {
-            id = "android-library"
+            id = "schmekels.android.library"
             implementationClass = "AndroidLibraryConventionPlugin"
         }
         register("androidFeature") {
-            id = "android-feature"
+            id = "schmekels.android.feature"
             implementationClass = "AndroidFeatureConventionPlugin"
         }
         register("domainModule") {
-            id = "domain-module"
+            id = "schmekels.domain.module"
             implementationClass = "DomainModuleConventionPlugin"
         }
         register("compose") {
-            id = "compose"
+            id = "schmekels.compose"
             implementationClass = "ComposeConventionPlugin"
         }
         register("koin") {
-            id = "koin"
+            id = "schmekels.koin"
             implementationClass = "KoinConventionPlugin"
         }
         register("ktor") {
-            id = "ktor"
+            id = "schmekels.ktor"
             implementationClass = "KtorConventionPlugin"
         }
         register("room") {
-            id = "room"
+            id = "schmekels.room"
             implementationClass = "RoomConventionPlugin"
         }
         register("kotlinxSerialization") {
-            id = "kotlinx-serialization"
+            id = "schmekels.kotlinx.serialization"
             implementationClass = "KotlinxSerializationConventionPlugin"
         }
     }
