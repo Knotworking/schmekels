@@ -11,7 +11,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 apply("schmekels.koin")
             }
             dependencies {
-                add("implementation", libs.findLibrary("kotlinx-coroutines-android").get())
+                add("implementation", libsCatalog.findLibrary("kotlinx-coroutines-android").get())
             }
         }
     }

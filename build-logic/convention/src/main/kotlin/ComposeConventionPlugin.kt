@@ -14,12 +14,12 @@ class ComposeConventionPlugin : Plugin<Project> {
             }
 
             dependencies {
-                add("implementation", platform(libs.findLibrary("compose-bom").get()))
-                add("implementation", libs.findLibrary("compose-ui").get())
-                add("implementation", libs.findLibrary("compose-ui-graphics").get())
-                add("implementation", libs.findLibrary("compose-ui-tooling-preview").get())
-                add("implementation", libs.findLibrary("compose-material3").get())
-                add("debugImplementation", libs.findLibrary("compose-ui-tooling").get())
+                add("implementation", platform(libsCatalog.findLibrary("compose-bom").get()))
+                add("implementation", libsCatalog.findLibrary("compose-ui").get())
+                add("implementation", libsCatalog.findLibrary("compose-ui-graphics").get())
+                add("implementation", libsCatalog.findLibrary("compose-ui-tooling-preview").get())
+                add("implementation", libsCatalog.findLibrary("compose-material3").get())
+                add("debugImplementation", libsCatalog.findLibrary("compose-ui-tooling").get())
             }
         }
     }

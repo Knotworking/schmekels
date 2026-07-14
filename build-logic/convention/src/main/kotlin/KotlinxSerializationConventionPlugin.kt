@@ -7,7 +7,7 @@ class KotlinxSerializationConventionPlugin : Plugin<Project> {
         with(target) {
             pluginManager.apply("org.jetbrains.kotlin.plugin.serialization")
             dependencies {
-                add("implementation", libs.findLibrary("kotlinx-serialization-json").get())
+                add("implementation", libsCatalog.findLibrary("kotlinx-serialization-json").get())
             }
         }
     }

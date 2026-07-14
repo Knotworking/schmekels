@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_bad_request">Bad request. Please try again.</string>
+    <string name="error_request_timeout">The request timed out. Please try again.</string>
+    <string name="error_unauthorized">You are not authorized to do this.</string>
+    <string name="error_forbidden">This action is forbidden.</string>
+    <string name="error_not_found">The requested data could not be found.</string>
+    <string name="error_conflict">There was a conflict with your request.</string>
+    <string name="error_too_many_requests">Too many requests. Please try again later.</string>
+    <string name="error_no_internet">No internet connection.</string>
+    <string name="error_payload_too_large">The request payload is too large.</string>
+    <string name="error_server_error">A server error occurred. Please try again later.</string>
+    <string name="error_service_unavailable">The service is currently unavailable.</string>
+    <string name="error_serialization">Something went wrong processing the data.</string>
+    <string name="error_local_not_found">The requested data could not be found locally.</string>
+    <string name="error_disk_full">Not enough storage space is available.</string>
+    <string name="error_unknown">An unknown error occurred.</string>
+</resources>
