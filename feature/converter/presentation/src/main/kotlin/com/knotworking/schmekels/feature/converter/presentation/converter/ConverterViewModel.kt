@@ -130,7 +130,7 @@ class ConverterViewModel(
 
     private fun refresh(forceRefresh: Boolean) {
         viewModelScope.launch {
-            _state.update { it.copy(isRefreshing = forceRefresh) }
+            _state.update { it.copy(isRefreshing = forceRefresh, error = null) }
             exchangeRateRepository.getRates(forceRefresh)
                 .onFailure { error -> _state.update { it.copy(error = error.toUiText()) } }
             _state.update { it.copy(isLoading = false, isRefreshing = false) }

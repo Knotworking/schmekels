@@ -6,6 +6,7 @@ import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
 import kotlinx.coroutines.CancellationException
 import kotlinx.serialization.SerializationException
+import java.io.IOException
 import java.nio.channels.UnresolvedAddressException
 
 suspend inline fun <reified T> safeCall(
@@ -14,6 +15,9 @@ suspend inline fun <reified T> safeCall(
     val response = try {
         execute()
     } catch (e: UnresolvedAddressException) {
+        e.printStackTrace()
+        return Result.Error(DataError.Network.NO_INTERNET)
+    } catch (e: IOException) {
         e.printStackTrace()
         return Result.Error(DataError.Network.NO_INTERNET)
     } catch (e: SerializationException) {
