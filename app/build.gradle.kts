@@ -1,19 +1,14 @@
 plugins {
-    alias(libs.plugins.android.application)
+    id("schmekels.android.application")
+    id("schmekels.compose")
+    id("schmekels.koin")
 }
 
 android {
     namespace = "com.knotworking.schmekels"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
 
     defaultConfig {
         applicationId = "com.knotworking.schmekels"
-        minSdk = 33
-        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -29,16 +24,16 @@ android {
             )
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
 }
 
 dependencies {
-    implementation(libs.androidx.appcompat)
+    implementation(project(":core:design-system"))
+    implementation(project(":feature:converter:data"))
+    implementation(project(":feature:converter:presentation"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.material)
+    implementation(libs.activity.compose)
+    implementation(libs.navigation.compose)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
