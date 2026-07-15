@@ -4,6 +4,7 @@ plugins {
     id("schmekels.koin")
     id("schmekels.room")
     id("schmekels.kotlinx.serialization")
+    id("schmekels.testing")
 }
 
 android {

@@ -46,5 +46,9 @@ gradlePlugin {
             id = "schmekels.kotlinx.serialization"
             implementationClass = "KotlinxSerializationConventionPlugin"
         }
+        register("testing") {
+            id = "schmekels.testing"
+            implementationClass = "TestingConventionPlugin"
+        }
     }
 }
