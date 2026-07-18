@@ -55,6 +55,7 @@ class ConverterViewModel(
     fun onAction(action: ConverterAction) {
         when (action) {
             is ConverterAction.OnAmountChange -> onAmountChange(action.code, action.amount)
+            is ConverterAction.OnSetDefaultCurrency -> onSetDefaultCurrency(action.code)
             ConverterAction.OnRefreshClick -> refresh(forceRefresh = true)
             ConverterAction.OnAddCurrencyClick -> navigateToPicker()
         }
@@ -63,13 +64,16 @@ class ConverterViewModel(
     private fun observeWatchlistAndRates() {
         combine(
             watchlistRepository.watchlist,
-            exchangeRateRepository.getCachedRates()
-        ) { codes, snapshot -> codes to snapshot }
-            .onEach { (codes, snapshot) ->
+            exchangeRateRepository.getCachedRates(),
+            watchlistRepository.defaultCurrency
+        ) { codes, snapshot, defaultCurrency -> Triple(codes, snapshot, defaultCurrency) }
+            .onEach { (codes, snapshot, defaultCurrency) ->
                 latestSnapshot = snapshot
                 _state.update { current ->
+                    val (rows, resolvedActiveCode) = buildRows(codes, snapshot, defaultCurrency, current)
                     current.copy(
-                        rows = buildRows(codes, current),
+                        rows = rows,
+                        activeCode = resolvedActiveCode,
                         ratesAsOf = snapshot?.fetchedAt?.let(::formatFetchedAt)
                     )
                 }
@@ -77,17 +81,37 @@ class ConverterViewModel(
             .launchIn(viewModelScope)
     }
 
-    private fun buildRows(codes: Set<String>, current: ConverterState): List<CurrencyRowUi> {
+    private fun buildRows(
+        codes: Set<String>,
+        snapshot: ExchangeRateSnapshot?,
+        defaultCurrency: String,
+        current: ConverterState
+    ): Pair<List<CurrencyRowUi>, String?> {
         val existing = current.rows.associateBy { it.code }
-        return codes.sorted().mapNotNull { code ->
+        val sortedCodes = codes.sorted()
+        val resolvedActiveCode = current.activeCode?.takeIf { it in codes }
+            ?: defaultCurrency.takeIf { it in codes }
+            ?: sortedCodes.firstOrNull()
+        val activeAmount = (existing[resolvedActiveCode]?.amount ?: DEFAULT_AMOUNT).toDoubleOrNull() ?: 1.0
+
+        val rows = sortedCodes.mapNotNull { code ->
             val currency = CurrencyCatalog[code] ?: return@mapNotNull null
+            val amount = when {
+                code == resolvedActiveCode -> existing[code]?.amount ?: DEFAULT_AMOUNT
+                snapshot != null -> CurrencyConverter.convert(activeAmount, resolvedActiveCode!!, code, snapshot)
+                    ?.let(::formatAmount)
+                    ?: (existing[code]?.amount ?: DEFAULT_AMOUNT)
+                else -> existing[code]?.amount ?: DEFAULT_AMOUNT
+            }
             CurrencyRowUi(
                 code = code,
                 name = currency.name,
                 symbol = currency.symbol,
-                amount = existing[code]?.amount ?: DEFAULT_AMOUNT
+                amount = amount,
+                isDefault = code == defaultCurrency
             )
         }
+        return rows to resolvedActiveCode
     }
 
     private fun onAmountChange(code: String, amount: String) {
@@ -95,6 +119,22 @@ class ConverterViewModel(
             current.copy(
                 activeCode = code,
                 rows = current.rows.map { row -> if (row.code == code) row.copy(amount = amount) else row }
+            )
+        }
+        amountChanges.tryEmit(Unit)
+    }
+
+    private fun onSetDefaultCurrency(code: String) {
+        viewModelScope.launch { watchlistRepository.setDefaultCurrency(code) }
+        _state.update { current ->
+            current.copy(
+                activeCode = code,
+                rows = current.rows.map { row ->
+                    row.copy(
+                        amount = if (row.code == code) DEFAULT_AMOUNT else row.amount,
+                        isDefault = row.code == code
+                    )
+                }
             )
         }
         amountChanges.tryEmit(Unit)

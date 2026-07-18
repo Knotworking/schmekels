@@ -17,5 +17,6 @@ data class CurrencyRowUi(
     val code: String,
     val name: String,
     val symbol: String,
-    val amount: String
+    val amount: String,
+    val isDefault: Boolean = false
 )

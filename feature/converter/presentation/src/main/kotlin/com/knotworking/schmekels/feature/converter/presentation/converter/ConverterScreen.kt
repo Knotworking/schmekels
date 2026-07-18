@@ -3,6 +3,7 @@ package com.knotworking.schmekels.feature.converter.presentation.converter
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -11,10 +12,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -23,6 +28,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -115,7 +121,15 @@ fun ConverterScreen(
                     items(items = state.rows, key = { it.code }) { row ->
                         CurrencyRow(
                             row = row,
-                            onAmountChange = { onAction(ConverterAction.OnAmountChange(row.code, it)) }
+                            onAmountChange = {
+                                onAction(
+                                    ConverterAction.OnAmountChange(
+                                        row.code,
+                                        it
+                                    )
+                                )
+                            },
+                            onSetDefaultClick = { onAction(ConverterAction.OnSetDefaultCurrency(row.code)) }
                         )
                     }
                 }
@@ -127,17 +141,36 @@ fun ConverterScreen(
 @Composable
 private fun CurrencyRow(
     row: CurrencyRowUi,
-    onAmountChange: (String) -> Unit
+    onAmountChange: (String) -> Unit,
+    onSetDefaultClick: () -> Unit
 ) {
-    OutlinedTextField(
-        value = row.amount,
-        onValueChange = onAmountChange,
-        label = { Text("${row.code} · ${row.name}") },
-        leadingIcon = { Text(row.symbol) },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-        singleLine = true,
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.fillMaxWidth()
-    )
+    ) {
+        IconButton(onClick = onSetDefaultClick) {
+            Icon(
+                imageVector = if (row.isDefault) Icons.Filled.Home else Icons.Outlined.Home,
+                tint = if (row.isDefault) MaterialTheme.colorScheme.primary
+                else MaterialTheme.colorScheme.outline.copy(alpha = 0.3f),
+                contentDescription = if (row.isDefault) {
+                    stringResource(R.string.cd_default_currency, row.code)
+                } else {
+                    stringResource(R.string.cd_set_default_currency, row.code)
+                }
+            )
+        }
+        OutlinedTextField(
+            value = row.amount,
+            onValueChange = onAmountChange,
+            label = { Text("${row.code} · ${row.name}") },
+            leadingIcon = { Text(row.symbol) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+            singleLine = true,
+            modifier = Modifier
+                .weight(1f)
+        )
+    }
 }
 
 @Preview
@@ -147,7 +180,7 @@ private fun ConverterScreenPreview() {
         ConverterScreen(
             state = ConverterState(
                 rows = listOf(
-                    CurrencyRowUi("EUR", "Euro", "€", "1"),
+                    CurrencyRowUi("EUR", "Euro", "€", "1", isDefault = true),
                     CurrencyRowUi("GBP", "British Pound Sterling", "£", "0.86"),
                     CurrencyRowUi("SEK", "Swedish Krona", "kr", "11.42")
                 ),
