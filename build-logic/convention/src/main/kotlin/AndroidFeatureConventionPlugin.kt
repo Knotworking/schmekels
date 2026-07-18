@@ -3,12 +3,12 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 
 class AndroidFeatureConventionPlugin : Plugin<Project> {
-    override fun apply(target: Project) {
-        with(target) {
+    override fun apply(project: Project) {
+        with(project) {
             with(pluginManager) {
-                apply("schmekels.android.library")
-                apply("schmekels.compose")
-                apply("schmekels.koin")
+                apply("android.library")
+                apply("compose")
+                apply("koin")
             }
             dependencies {
                 add("implementation", libsCatalog.findLibrary("kotlinx-coroutines-android").get())

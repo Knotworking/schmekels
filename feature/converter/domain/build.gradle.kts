@@ -1,6 +1,6 @@
 plugins {
-    id("schmekels.domain.module")
-    id("schmekels.testing")
+    id("domain.module")
+    id("testing")
 }
 
 dependencies {

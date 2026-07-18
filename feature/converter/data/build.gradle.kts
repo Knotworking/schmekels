@@ -1,10 +1,10 @@
 plugins {
-    id("schmekels.android.library")
-    id("schmekels.ktor")
-    id("schmekels.koin")
-    id("schmekels.room")
-    id("schmekels.kotlinx.serialization")
-    id("schmekels.testing")
+    id("android.library")
+    id("ktor")
+    id("koin")
+    id("room")
+    id("kotlinx.serialization")
+    id("testing")
 }
 
 android {

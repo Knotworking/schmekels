@@ -5,8 +5,8 @@ import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.withType
 
 class TestingConventionPlugin : Plugin<Project> {
-    override fun apply(target: Project) {
-        with(target) {
+    override fun apply(project: Project) {
+        with(project) {
             tasks.withType<Test>().configureEach {
                 useJUnitPlatform()
             }

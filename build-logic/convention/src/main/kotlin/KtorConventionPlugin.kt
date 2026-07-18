@@ -3,8 +3,8 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 
 class KtorConventionPlugin : Plugin<Project> {
-    override fun apply(target: Project) {
-        with(target) {
+    override fun apply(project: Project) {
+        with(project) {
             dependencies {
                 add("implementation", libsCatalog.findLibrary("ktor-client-core").get())
                 add("implementation", libsCatalog.findLibrary("ktor-client-okhttp").get())

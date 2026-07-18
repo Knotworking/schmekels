@@ -1,6 +1,6 @@
 plugins {
-    id("schmekels.android.library")
-    id("schmekels.ktor")
+    id("android.library")
+    id("ktor")
 }
 
 android {

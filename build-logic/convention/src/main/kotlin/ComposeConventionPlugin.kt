@@ -5,8 +5,8 @@ import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 
 class ComposeConventionPlugin : Plugin<Project> {
-    override fun apply(target: Project) {
-        with(target) {
+    override fun apply(project: Project) {
+        with(project) {
             pluginManager.apply("org.jetbrains.kotlin.plugin.compose")
 
             extensions.getByType<CommonExtension>().apply {

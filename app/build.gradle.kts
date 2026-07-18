@@ -1,7 +1,7 @@
 plugins {
-    id("schmekels.android.application")
-    id("schmekels.compose")
-    id("schmekels.koin")
+    id("android.application")
+    id("compose")
+    id("koin")
 }
 
 android {
@@ -9,8 +9,8 @@ android {
 
     defaultConfig {
         applicationId = "com.knotworking.schmekels"
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = ProjectConfig.versionCode
+        versionName = ProjectConfig.versionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

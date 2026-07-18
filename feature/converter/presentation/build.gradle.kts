@@ -1,7 +1,7 @@
 plugins {
-    id("schmekels.android.feature")
-    id("schmekels.kotlinx.serialization")
-    id("schmekels.testing")
+    id("android.feature")
+    id("kotlinx.serialization")
+    id("testing")
 }
 
 android {

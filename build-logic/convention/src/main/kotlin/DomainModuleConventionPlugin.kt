@@ -4,11 +4,11 @@ import org.gradle.kotlin.dsl.configure
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 
 class DomainModuleConventionPlugin : Plugin<Project> {
-    override fun apply(target: Project) {
-        with(target) {
+    override fun apply(project: Project) {
+        with(project) {
             pluginManager.apply("org.jetbrains.kotlin.jvm")
             extensions.configure<KotlinJvmProjectExtension> {
-                jvmToolchain(11)
+                jvmToolchain(ProjectConfig.jvmToolChainJdkVersion)
             }
         }
     }
