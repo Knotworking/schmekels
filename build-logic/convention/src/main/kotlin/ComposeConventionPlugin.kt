@@ -19,6 +19,7 @@ class ComposeConventionPlugin : Plugin<Project> {
                 add("implementation", libsCatalog.findLibrary("compose-ui-graphics").get())
                 add("implementation", libsCatalog.findLibrary("compose-ui-tooling-preview").get())
                 add("implementation", libsCatalog.findLibrary("compose-material3").get())
+                add("implementation", libsCatalog.findLibrary("compose-material-icons").get())
                 add("debugImplementation", libsCatalog.findLibrary("compose-ui-tooling").get())
             }
         }

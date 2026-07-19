@@ -8,7 +8,7 @@ android {
     namespace = "com.knotworking.schmekels"
 
     defaultConfig {
-        applicationId = "com.knotworking.schmekels"
+        applicationId = ProjectConfig.appId
         versionCode = ProjectConfig.versionCode
         versionName = ProjectConfig.versionName
 
