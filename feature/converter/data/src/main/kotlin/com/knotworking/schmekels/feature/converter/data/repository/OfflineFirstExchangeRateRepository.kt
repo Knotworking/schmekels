@@ -3,6 +3,7 @@ package com.knotworking.schmekels.feature.converter.data.repository
 import com.knotworking.schmekels.core.domain.util.DataError
 import com.knotworking.schmekels.core.domain.util.EmptyResult
 import com.knotworking.schmekels.core.domain.util.Result
+import com.knotworking.schmekels.core.logging.AppLog
 import com.knotworking.schmekels.feature.converter.data.local.ExchangeRateLocalDataSource
 import com.knotworking.schmekels.feature.converter.data.remote.ExchangeRateRemoteDataSource
 import com.knotworking.schmekels.feature.converter.domain.model.ExchangeRateSnapshot
@@ -18,16 +19,26 @@ class OfflineFirstExchangeRateRepository(
 ) : ExchangeRateRepository {
 
     override suspend fun getRates(forceRefresh: Boolean): EmptyResult<DataError> {
+        AppLog.i("TAG", "OfflineFirstRepo.getRates ...")
         val cached = localDataSource.observeRates().firstOrNull()
-        val isStale = cached == null || System.currentTimeMillis() - cached.fetchedAt > STALENESS_THRESHOLD_MS
+        val isStale =
+            cached == null || System.currentTimeMillis() - cached.fetchedAt > STALENESS_THRESHOLD_MS
 
         if (!forceRefresh && !isStale) {
+            AppLog.i("TAG", "Rates don't need refresh")
             return Result.Success(Unit)
         }
 
         return when (val remoteResult = remoteDataSource.fetchLatestRates()) {
-            is Result.Success -> localDataSource.saveRates(remoteResult.data)
-            is Result.Error -> if (cached != null) Result.Success(Unit) else remoteResult
+            is Result.Success -> {
+                AppLog.i("TAG", "success fetching remote rates")
+                localDataSource.saveRates(remoteResult.data)
+            }
+
+            is Result.Error -> {
+                AppLog.i("TAG", "error fetching remote rates")
+                if (cached != null) Result.Success(Unit) else remoteResult
+            }
         }
     }
 

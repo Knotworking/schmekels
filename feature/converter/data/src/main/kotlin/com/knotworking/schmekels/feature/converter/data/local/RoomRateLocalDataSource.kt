@@ -3,6 +3,7 @@ package com.knotworking.schmekels.feature.converter.data.local
 import com.knotworking.schmekels.core.domain.util.DataError
 import com.knotworking.schmekels.core.domain.util.EmptyResult
 import com.knotworking.schmekels.core.domain.util.Result
+import com.knotworking.schmekels.core.logging.AppLog
 import com.knotworking.schmekels.feature.converter.domain.model.ExchangeRateSnapshot
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -27,6 +28,7 @@ class RoomRateLocalDataSource(
 
     override suspend fun saveRates(snapshot: ExchangeRateSnapshot): EmptyResult<DataError.Local> {
         return try {
+            AppLog.i("TAG", "RoomRateLocalDataSource.saveRates ...")
             dao.replaceRates(
                 rates = snapshot.rates.map { (code, rate) -> ExchangeRateEntity(code, rate) },
                 meta = RateMetaEntity(base = snapshot.base, fetchedAtEpoch = snapshot.fetchedAt)

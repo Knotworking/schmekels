@@ -10,6 +10,7 @@ android {
 
 dependencies {
     implementation(project(":core:domain"))
+    implementation(project(":core:logging"))
     implementation(project(":core:presentation"))
     implementation(project(":core:design-system"))
     implementation(project(":feature:converter:domain"))

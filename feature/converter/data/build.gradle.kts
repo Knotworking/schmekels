@@ -14,6 +14,7 @@ android {
 dependencies {
     implementation(project(":core:domain"))
     implementation(project(":core:data"))
+    implementation(project(":core:logging"))
     implementation(project(":feature:converter:domain"))
     implementation(libs.datastore.preferences)
 }

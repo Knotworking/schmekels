@@ -1,9 +1,9 @@
 package com.knotworking.schmekels.feature.converter.presentation.converter
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.knotworking.schmekels.core.domain.util.onFailure
+import com.knotworking.schmekels.core.logging.AppLog
 import com.knotworking.schmekels.core.presentation.util.toUiText
 import com.knotworking.schmekels.feature.converter.domain.CurrencyConverter
 import com.knotworking.schmekels.feature.converter.domain.model.CurrencyCatalog
@@ -73,8 +73,8 @@ class ConverterViewModel(
                 _state.update { current ->
                     val (rows, resolvedActiveCode) = buildRows(codes, snapshot, defaultCurrency, current)
                     val rateAsOfFormatted = snapshot?.fetchedAt?.let(::formatFetchedAt)
-                    Log.i("TAG", "timestamp: ${snapshot?.fetchedAt}")
-                   Log.i("TAG","rate as of: $rateAsOfFormatted")
+                    AppLog.i("ConverterViewModel", "timestamp: ${snapshot?.fetchedAt}")
+                    AppLog.i("ConverterViewModel", "rate as of: $rateAsOfFormatted")
                     current.copy(
                         rows = rows,
                         activeCode = resolvedActiveCode,

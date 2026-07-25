@@ -28,6 +28,7 @@ android {
 
 dependencies {
     implementation(project(":core:design-system"))
+    implementation(project(":core:logging"))
     implementation(project(":feature:converter:data"))
     implementation(project(":feature:converter:presentation"))
     implementation(libs.androidx.core.ktx)
