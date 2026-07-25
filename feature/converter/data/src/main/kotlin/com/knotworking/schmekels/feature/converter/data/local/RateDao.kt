@@ -1,5 +1,6 @@
 package com.knotworking.schmekels.feature.converter.data.local
 
+import android.util.Log
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
@@ -26,6 +27,7 @@ interface RateDao {
 
     @Transaction
     suspend fun replaceRates(rates: List<ExchangeRateEntity>, meta: RateMetaEntity) {
+        Log.i("TAG", "replace rates locally: ${meta.fetchedAtEpoch}")
         clearRates()
         upsertRates(rates)
         upsertMeta(meta)
