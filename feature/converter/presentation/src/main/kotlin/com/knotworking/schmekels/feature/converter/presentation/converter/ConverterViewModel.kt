@@ -32,6 +32,8 @@ import java.util.Locale
 private const val DEFAULT_AMOUNT = "1"
 private const val RECOMPUTE_DEBOUNCE_MS = 300L
 
+typealias ActiveCode = String?
+
 @OptIn(FlowPreview::class)
 class ConverterViewModel(
     private val exchangeRateRepository: ExchangeRateRepository,
@@ -90,7 +92,7 @@ class ConverterViewModel(
         snapshot: ExchangeRateSnapshot?,
         defaultCurrency: String,
         current: ConverterState
-    ): Pair<List<CurrencyRowUi>, String?> {
+    ): Pair<List<CurrencyRowUi>, ActiveCode> {
         val existing = current.rows.associateBy { it.code }
         val sortedCodes = codes.sorted()
         val resolvedActiveCode = current.activeCode?.takeIf { it in codes }
@@ -194,6 +196,6 @@ private fun formatAmount(value: Double): String {
 }
 
 private fun formatFetchedAt(epochMillis: Long): String {
-    val formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM).withLocale(Locale.getDefault())
+    val formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).withLocale(Locale.getDefault())
     return Instant.ofEpochMilli(epochMillis).atZone(ZoneId.systemDefault()).format(formatter)
 }
